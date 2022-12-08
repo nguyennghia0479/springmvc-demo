@@ -8,42 +8,58 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Employee Form</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </head>
 <body>
-    <div align="center">
-        <h2>Employee Form</h2>
-        <form:form action="save" method="post" modelAttribute="employee">
-            <table border="0" cellpadding="5">
-               <form:hidden path="id"/>
-                <tr>
-                    <td>First Name: </td>
-                    <td><form:input path="firstName" /></td>
-                </tr>
-                <tr>
-                    <td>Last Name: </td>
-                    <td><form:input path="lastName" /></td>
-                </tr>
-                <tr>
-                    <td>Date of Birth: </td>
-                    <td><form:input path="dobString" type="date"/></td>
-                </tr>
-                <tr>
-                    <td>Login: </td>
-                    <td><form:input path="login" /></td>
-                </tr>
-                <tr>
-                    <td>Mobile No: </td>
-                    <td><form:input path="mobileNo" /></td>
-                </tr>
-                <tr>
-                    <td>Gender: </td>
-                    <td><form:radiobuttons path="gender" items="${genderRadio}"/></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit" value="Save"></td>
-                </tr>
-            </table>
-        </form:form>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h2>Employee Form</h2>
+                <form:form action="save" method="post" modelAttribute="employee">
+                    <form:hidden path="id"/>
+                    <div class="form-group">
+                        <label for="firstName"><strong>First name</strong></label>
+                        <form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Input first name"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="lastName"><strong>Last name</strong></label>
+                        <form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Input last name"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="dobString"><strong>Date of Birth</strong></label>
+                        <form:input path="dobString" type="date" class="form-control" id="dobString"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="login"><strong>Login</strong></label>
+                        <form:input path="login" type="text" class="form-control" id="login" placeholder="Input login"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="mobileNo"><strong>Mobile No</strong></label>
+                        <form:input path="mobileNo" type="text" class="form-control" id="mobileNo" placeholder="Input mobile no"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="gender" class"mr-5"><strong>Gender</strong></label>
+                        <div class="form-check form-check-inline">
+                            <form:radiobutton  path="gender" class="form-check-input" name="gender" id="male" value="MALE" />
+                            <label class="form-check-label" for="male">MALE</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <form:radiobutton  path="gender" class="form-check-input" name="gender" id="female" value="FEMALE" />
+                            <label class="form-check-label" for="female">FEMALE</label>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-10">
+                          <button type="submit" class="btn btn-success">Save</button>
+                          <a href="${pageContext.request.contextPath}/api/v1/employees/" class="btn btn-secondary">Cancel</a>
+                        </div>
+                      </div>
+                </form:form>
+            </div>
+        </div>
     </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
 </html>
