@@ -36,7 +36,7 @@ public class PersistenceJpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan(new String[] {
+        entityManagerFactoryBean.setPackagesToScan(new String[]{
                 "com.example.model"
         });
 
@@ -54,6 +54,7 @@ public class PersistenceJpaConfig {
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", env.getProperty("hibernate.cache.use_second_level_cache"));
         hibernateProperties.setProperty("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
+//        hibernateProperties.setProperty("spring.jpa.properties.hibernate.legacy_limit_handler", env.getProperty("spring.jpa.properties.hibernate.legacy_limit_handler"));
         return hibernateProperties;
     }
 

@@ -3,10 +3,12 @@ package com.example.controller;
 import com.example.dto.EmployeeDTO;
 import com.example.model.Employee;
 import com.example.service.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 
 @Controller
@@ -18,12 +20,32 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/")
-    public ModelAndView getEmployeeListPage() {
+    @GetMapping("/page/{pageNo}")
+    public ModelAndView getEmployeeListPage(@PathVariable(value = "pageNo", required = false) int pageNo,
+                                            @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
+                                            @RequestParam(value = "sortField", defaultValue = "id", required = false) String sortField,
+                                            @RequestParam(value = "sortDir", defaultValue = "desc", required = false) String sortDir,
+                                            HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("employee-table");
-        mav.addObject("employees", employeeService.findAll());
+        Page<EmployeeDTO> page = employeeService.paginated(pageNo, pageSize, sortField, sortDir);
+
+        mav.addObject("currentPage", pageNo);
+        mav.addObject("totalPages", page.getTotalPages());
+        mav.addObject("totalItems", page.getTotalElements());
+        mav.addObject("employees", page.getContent());
+        mav.addObject("sortField", sortField);
+        mav.addObject("sortDir", sortDir);
+        mav.addObject("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        mav.addObject("url", "?sortField=" + sortField + "&sortDir=" + sortDir);
         return mav;
     }
+
+//    @GetMapping("/")
+//    public ModelAndView getEmployeeListPage() {
+//        ModelAndView mav = new ModelAndView("employee-table");
+//        mav.addObject("employees", employeeService.findAll());
+//        return mav;
+//    }
 
     @GetMapping("/search")
     public ModelAndView getEmployeesBySearch(@RequestParam("keyword") String keyword) {
