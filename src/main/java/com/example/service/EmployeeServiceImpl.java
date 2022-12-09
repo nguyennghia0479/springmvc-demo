@@ -3,6 +3,11 @@ package com.example.service;
 import com.example.dto.EmployeeDTO;
 import com.example.model.Employee;
 import com.example.repository.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
@@ -26,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    @Cacheable("employees")
     @Override
     public Page<EmployeeDTO> paginated(int pageNo, int pageSize, String sortField, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
@@ -57,6 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDTOS;
     }
 
+    @Cacheable(value = "employee", key = "#id")
     @Override
     public EmployeeDTO findById(Long id) {
         Employee employee = employeeRepository.findById(id)
@@ -64,6 +72,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeToEmployeeDTO(employee);
     }
 
+    //    @CacheEvict(value = "employees", allEntries = true)
+    @Caching(put = @CachePut(value = "employee", key = "#result.id"), evict = @CacheEvict(value = "employees", allEntries = true))
     @Override
     public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) throws ParseException {
         employeeDTO.setDob(dateStringToDate(employeeDTO.getDobString()));
@@ -110,5 +120,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Date dateStringToDate(String date) throws ParseException {
         return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+    }
+
+    private void sleep() {
+        try {
+            long time = 2000L;
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

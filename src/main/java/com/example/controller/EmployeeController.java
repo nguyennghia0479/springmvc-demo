@@ -4,12 +4,14 @@ import com.example.dto.EmployeeDTO;
 import com.example.model.Employee;
 import com.example.service.EmployeeService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/v1/employees")
@@ -40,12 +42,18 @@ public class EmployeeController {
         return mav;
     }
 
-//    @GetMapping("/")
-//    public ModelAndView getEmployeeListPage() {
-//        ModelAndView mav = new ModelAndView("employee-table");
+    @GetMapping("/")
+    public ModelAndView getEmployeeListPage() {
+        ModelAndView mav = new ModelAndView("employees");
 //        mav.addObject("employees", employeeService.findAll());
-//        return mav;
-//    }
+        return mav;
+    }
+
+    @GetMapping(value = "/get-list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<EmployeeDTO> findAll() {
+        return employeeService.findAll();
+    }
 
     @GetMapping("/search")
     public ModelAndView getEmployeesBySearch(@RequestParam("keyword") String keyword) {
@@ -73,6 +81,6 @@ public class EmployeeController {
     @PostMapping("/save")
     public String saveEmployee(@ModelAttribute("employee") EmployeeDTO employee) throws ParseException {
         employeeService.saveEmployee(employee);
-        return "redirect:/api/v1/employees/";
+        return "redirect:/api/v1/employees/page/1";
     }
 }
