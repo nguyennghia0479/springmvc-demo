@@ -4,17 +4,17 @@ import com.example.dto.EmployeeDTO;
 import com.example.model.Employee;
 import com.example.service.EmployeeService;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-@Controller
-@RequestMapping("/api/v1/employees")
+@RestController
+@RequestMapping(value = "/api/v1/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -49,10 +49,11 @@ public class EmployeeController {
         return mav;
     }
 
-    @GetMapping(value = "/get-list", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<EmployeeDTO> findAll() {
-        return employeeService.findAll();
+    @GetMapping(value = "/get-list")
+    public @ResponseBody ResponseEntity<?> findAll() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", employeeService.findAll());
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/search")
