@@ -112,11 +112,17 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- JSON begin -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.14.1</version>
+            <version>2.14.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jaxb-annotations</artifactId>
+            <version>2.14.0</version>
+        </dependency><!-- JSON end -->
 
     </dependencies>
     <build>
