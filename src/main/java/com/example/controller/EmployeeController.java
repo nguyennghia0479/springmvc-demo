@@ -10,11 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1/employees")
+@CrossOrigin
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -49,11 +48,9 @@ public class EmployeeController {
         return mav;
     }
 
-    @GetMapping(value = "/get-list")
+    @PostMapping(value = "/get-list")
     public @ResponseBody ResponseEntity<?> findAll() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("data", employeeService.findAll());
-        return ResponseEntity.ok(map);
+        return ResponseEntity.ok(employeeService.findAll());
     }
 
     @GetMapping("/search")

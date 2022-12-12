@@ -16,16 +16,18 @@
 
     <h2>Basic CRUD Application</h2>
     <p>Click the buttons on datagrid toolbar to do crud actions.</p>
-    <table id="dg" title="My Users" class="easyui-datagrid" style="width:700px;height:250px"
-                url="${pageContext.request.contextPath}/api/v1/employees/get-list"
+    <table id="dg" title="My Users" class="easyui-datagrid" style="width:80%; height:300px"
+                url=""
                 toolbar="#toolbar" pagination="true"
                 rownumbers="true" fitColumns="true" singleSelect="true">
         <thead>
             <tr>
-                <th field="firstname" width="50">First Name</th>
-                <th field="lastname" width="50">Last Name</th>
+                <th field="firstName" width="50">First Name</th>
+                <th field="lastName" width="50">Last Name</th>
                 <th field="dob" width="50">DOB</th>
                 <th field="login" width="50">Login</th>
+                <th field="mobileNo" width="50">Mobile No</th>
+                <th field="gender" width="50">GEnder</th>
             </tr>
         </thead>
     </table>
@@ -37,5 +39,22 @@
 
 <script src="<c:url value="/resources/vendor/easyui/jquery/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/vendor/easyui/jquery/jquery.easyui.min.js" />"></script>
+<script>
+
+
+
+$('#dg').datagrid({
+            url: '${pageContext.request.contextPath}/api/v1/employees/get-list',
+            toolbar: '#toolbar',
+            pagination: true,
+            rownumbers: true,
+            singleSelect: true,
+            striped: true,
+            remoteSort: true,
+            sortName: 'firstName',
+            pageNumber:2,
+            pageSize:10
+        });
+</script>
 </body>
 </html>
